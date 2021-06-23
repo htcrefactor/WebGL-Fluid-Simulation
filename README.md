@@ -26,19 +26,20 @@
 ## Try Here
 시뮬레이터 사용해보기:
 - (모바일도 가능한 초간단 방법 👍🏻 ) [Try on Netlify](https://webgl2-fluid-simulation.netlify.app)
-- (조금 귀찮은 방법) Git Repository를 클론한 후, `index.html`를 웹 브라우저에서 열기.
+- (조금 귀찮은 방법) Git Repository를 클론한 후, `index.html`를 웹 브라우저에서 열기. (콘솔에 CORS 관련 에러가 나타나도 대부분 작동해요!)
 
 ## Prerequisites
-- WebGL2를 지원하는 최신 브라우저를 권장해요 ([여기서 확인하기](http://get.webgl.org/))
+- WebGL 2.0을 지원하는 환경 ([여기서 확인하기](http://get.webgl.org/))
 
 ## What The Tutorial Covers
 - WebGL1과 WebGL2의 차이
-- WebGL1에서 WebGL2로 코드를 올리는 방법
+- WebGL1에서 WebGL2 코드로 변경하는 방법
+- Fluid Simulation에서 사용된 WebGL 2.0 코드
 
 ## WebGL1 vs WebGL2
 
 
-## Moving from WebGL1 to WebGL2
+## WebGL1에서 WebGL2 코드로 변경하는 방법
 ### `getContext`를 호출할 때 `webgl` 대신 `webgl2` 사용
 ```javascript
 // WebGL1
@@ -51,7 +52,27 @@ var gl = canvas.getContext('webgl2');
 ### 부동 소수점 프레임버퍼 추가
 WebGL1에선 부동 소수점 텍스처를 지원하는지 확인하기 위해 `OES_texture_float`를 활성화 한 후 부동 소수점 텍스처를 생성하고 프레임버퍼에 추가해 `gl.checkFramebufferStatus`를 호출해 `gl.FRAMEBUFFER_COMPLETE`를 반환하는지 확인해야 했어요.
 
-WebGL2에선 `EXT_color_buffer_float`를 허용해주면 
+WebGL2에서 `gl.checkFramebufferStatus`로 부터 `gl.FRAMEBUFFER_COMPLETE`를 반환받기 위해선 `EXT_color_buffer_float`를 허용해주세요.
+
+`HALF_FLOAT` 프레임버퍼에도 동일하게 적용해주세요!
+
+```javascript
+function getWebGLContext(canvas) {
+    
+    ...
+
+    if (isWebGL2) {
+        gl.getExtension('EXT_color_buffer_float');
+        supportLinearFiltering = gl.getExtension('OES_texture_float_linear');
+    } else {
+        halfFloat = gl.getExtension('OES_texture_half_float');
+        supportLinearFiltering = gl.getExtension('OES_texture_half_float_linear');
+    }
+
+    ...
+
+}
+```
 
 ### WebGL1 확장의 WebGL2 표준화
 아래 확장들이 표준에 편입됐어요.
