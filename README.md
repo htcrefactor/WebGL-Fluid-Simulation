@@ -34,9 +34,9 @@
 ## What The Tutorial Covers
 - [WebGL1과 WebGL2의 차이](##WebGL1과-WebGL2의-차이)
 - [WebGL1에서 WebGL2 코드로 변경하는 방법](https://github.com/htcrefactor/WebGL-Fluid-Simulation/tree/master#webgl1%EC%97%90%EC%84%9C-webgl2-%EC%BD%94%EB%93%9C%EB%A1%9C-%EB%B3%80%EA%B2%BD%ED%95%98%EB%8A%94-%EB%B0%A9%EB%B2%95)
-- Fluid Simulation에서 사용된 WebGL 2.0 코드
+- Fluid Simulation에서 사용된 WebGL 2.0 코드 (각 예제 코드에 포함)
 
-## WebGL1 vs WebGL2
+## WebGL1과 WebGL2의 차이
 
 
 ## WebGL1에서 WebGL2 코드로 변경하는 방법
