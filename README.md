@@ -16,6 +16,7 @@
         <a href="#contributor">License</a> • 
         <a href="#contributor">Acknowledgement</a>
     </p>
-    WebGL2로 아름다운 유체 시뮬레이션도 가능하다는 점 알고 계셨나요?<br>
-    WebGL2에 입문하고자 하시는 분들을 위해 WebGL로 할 수 있는 다양한 예시 중 하나를 보여드리겠습니다.<br>
+    WebGL2는 인터넷 브라우저 환경에서 OpenGL을 플러그인 도움 없이 공식적으로 사용할 수 있도록 Khronos Group에서 제정한 웹 그래픽스 API입니다.<br>
+    2017년 2월에 OpenGL ES 3.0기반 WebGL 2.0이 공개됐습니다.<br>
+    WebGL2에 입문하고자 하시는 분들을 위해 WebGL로 할 수 있는 다양한 것 중 가장 흥미로웠던 유체 시뮬레이션에 대한 튜토리얼 입니다.<br>
 </div>
