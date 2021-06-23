@@ -5,18 +5,12 @@
     <h4 align="center">WebGL2 Fluid Simulation Tutorial</h4>
     <p align="center">
         [![Open Source License](https://img.shields.io/github/license/htcrefactor/WebGL-Fluid-Simulation)](https://img.shields.io/github/license/htcrefactor/WebGL-Fluid-Simulation)
-
         <img src="http://img.shields.io/badge/-WebGL2-990000?style=flat&logo=WebGL&link=https://github.com/htcrefactor/WebGL-Fluid-Simulation"/>
-
         <img src="http://img.shields.io/badge/-HTML-E34F26?style=flat&logo=HTML5&link=https://github.com/htcrefactor/WebGL-Fluid-Simulation"/>
-
         <img src="http://img.shields.io/badge/-CSS3-1572B6?style=flat&logo=CSS3&link=https://github.com/htcrefactor/WebGL-Fluid-Simulation"/>
-
         <img src="http://img.shields.io/badge/-JavaScript-F7DF1E?style=flat&logo=JavaScript&link=https://github.com/htcrefactor/WebGL-Fluid-Simulation"/>
-
         <img src="http://img.shields.io/badge/-Netlify-00C7B7?style=flat&logo=Netlify&link=https://webgl2-fluid-simulation.netlify.app"/>
     </p>
-
     <p align="center">
         <a href="#how-to-start">How to start</a> • 
         <a href="#features">Features</a> •  
