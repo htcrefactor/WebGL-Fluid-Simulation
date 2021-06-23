@@ -1,4 +1,4 @@
-# WebGL Fluid Simulation Tutorial
+# Hello WebGL 2.0 : Using WebGL 2.0 to Implement Fluid Simulation
 
 <div align="center">
     <img src="./assets/screenshot.jpg"></img>
@@ -32,8 +32,8 @@
 - WebGL 2.0을 지원하는 환경 ([여기서 확인하기](http://get.webgl.org/))
 
 ## What The Tutorial Covers
-- WebGL1과 WebGL2의 차이
-- WebGL1에서 WebGL2 코드로 변경하는 방법
+- [WebGL1과 WebGL2의 차이](##WebGL1과-WebGL2의-차이)
+- [WebGL1에서 WebGL2 코드로 변경하는 방법](https://github.com/htcrefactor/WebGL-Fluid-Simulation/tree/master#webgl1%EC%97%90%EC%84%9C-webgl2-%EC%BD%94%EB%93%9C%EB%A1%9C-%EB%B3%80%EA%B2%BD%ED%95%98%EB%8A%94-%EB%B0%A9%EB%B2%95)
 - Fluid Simulation에서 사용된 WebGL 2.0 코드
 
 ## WebGL1 vs WebGL2
