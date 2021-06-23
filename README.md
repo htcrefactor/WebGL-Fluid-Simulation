@@ -11,7 +11,7 @@
         <img src="http://img.shields.io/badge/-Netlify-00C7B7?style=flat&logo=Netlify&link=https://webgl2-fluid-simulation.netlify.app"/>
     </p>
     <p align="center">
-        <a href="#how-to-start">How to Start</a> • 
+        <a href="#how-to-start">Try Here</a> • 
         <a href="#features">Features</a> •   
         <a href="#contributor">License</a> • 
         <a href="#contributor">Acknowledgements</a>
@@ -21,10 +21,17 @@
     WebGL2에 입문하고자 하시는 분들을 위해 WebGL로 할 수 있는 다양한 것 중 가장 흥미로웠던 유체 시뮬레이션에 대한 튜토리얼 입니다.
 </div>
 
-## How to Start
+## Try Here
+How to try the simulator:
+1. (Recommended) [Click this link](https://webgl2-fluid-simulation.netlify.app)
+2. Clone this repository to a local directory and open `index.html` in your web browser.
 
 ## Features
 
+
 ## License
 
+
 ## Acknowledgements
+https://github.com/PavelDoGreat/WebGL-Fluid-Simulation
+
