@@ -15,6 +15,7 @@
         <a href="#prerequisites">Prerequisites</a> • 
         <a href="#what-this-tutorial-covers">What This Tutorial Covers</a> •   
         <a href="#license">License</a> • 
+        <a href="#references">References</a> • 
         <a href="#acknowledgements">Acknowledgements</a>
     </p>
     WebGL은 인터넷 브라우저 환경에서 OpenGL을 플러그인 도움 없이 공식적으로 사용할 수 있도록 Khronos Group에서 제정한 웹 그래픽스 API입니다.
@@ -24,7 +25,7 @@
 
 ## Try Here
 시뮬레이터 사용해보기:
-- (모바일도 가능한 초간단 방법) [Try on Netlify](https://webgl2-fluid-simulation.netlify.app)
+- (모바일도 가능한 초간단 방법👍🏻) [Try on Netlify](https://webgl2-fluid-simulation.netlify.app)
 - (조금 귀찮은 방법) Git Repository를 클론한 후, `index.html`를 웹 브라우저에서 열기.
 
 ## Prerequisites
@@ -42,6 +43,16 @@ MIT License
 - Private Use: Yes
 - Sublicensing: Permissive
 - TM Grant: Manually
+
+## References
+WebGL2
+- https://webgl2fundamentals.org/webgl/lessons/webgl2-whats-new.html
+- https://webgl2fundamentals.org/webgl/lessons/webgl1-to-webgl2.html
+- https://www.khronos.org/assets/uploads/developers/library/2017-webgl-webinar/Khronos-Webinar-WebGL-20-is-here_What-you-need-to-know_Apr17.pdf
+- https://developer.mozilla.org/en-US/docs/Web/API/WebGL_API/Using_Extensions
+
+Open Source Licensing
+- https://en.wikipedia.org/wiki/Comparison_of_free_and_open-source_software_licences
 
 ## Acknowledgements
 Many thanks to [PavelDoGreat](https://github.com/PavelDoGreat/WebGL-Fluid-Simulation) for the mesmerizing implementation of the fluid simulator.
