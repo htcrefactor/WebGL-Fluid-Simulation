@@ -39,10 +39,10 @@
 
 
 ## Moving from WebGL1 to WebGL2
-### `getContext`를 호출할 때 `webgl` 대신 `webgl2`를 사용한다.
+### `getContext`를 호출할 때 `webgl` 대신 `webgl2` 사용
 `var gl = someCanvas.getContext("webgl2");`
 
-### WebGL1의 많은 확장들이 WebGL2 표준에 포함되어 확장을 덜 사용해도 된다.
+### WebGL1 확장의 WebGL2 표준화
 WebGL1:
 ```javascript
 var ext = gl.getExtension("OES_vertex_array_object");
@@ -55,7 +55,7 @@ if (!ext) {
 WebGL2:
 `var someVAO = gl.createVertexArray();`
 
-### `GLSL 300 es` 사용하기
+### `GLSL 300 es` 사용
 사용하는 쉐이더를 GLSL 3.00 ES로 업그레이드 하면 좋다. 그러기 위해선 쉐이더 선언의 첫 줄이 `#version 300 es`면 된다. 반드시 첫 줄이여야 하기 때문에 주석이나 개행이 이루어지면 안된다.
 
 ```javascript
@@ -72,10 +72,10 @@ var vertexShaderSource = `#version 300 es
 `;
 ```
 
-#### `attribute`을 `in`으로 바꾸기
-#### `varying`을 `in/out`으로 바꾸기
-#### `gl_FragColor` 대신 원하는 변수 사용 가능
-#### `texture2D`을 `texture`로 바꾸기
+#### `attribute` 대신 `in` 사용
+#### `varying` 대신 `in/out` 사용
+#### `gl_FragColor` 대신 원하는 변수명 사용 가능
+#### `texture2D` 대신 `texture` 사용
 ```javascript
 // WebGL1
 vec4 color1 = texture2D(u_some2DTexture, ...);
