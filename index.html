@@ -1,55 +1,289 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="Cache-Control" content="no-cache">
 
-        <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-        <meta name="apple-mobile-web-app-capable" content="yes">
-        <meta name="mobile-web-app-capable" content="yes">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="Cache-Control" content="no-cache">
 
-        <title>WebGL Fluid Simulation</title>
-        <meta name="description" content="A WebGL fluid simulation that works in mobile browsers.">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
 
-        <!-- <script type="text/javascript" src="dat.gui.min.js"></script> -->
-        <style>
+    <title>WebGL Fluid Simulation</title>
+    <meta name="description" content="A WebGL fluid simulation that works in mobile browsers.">
 
+    <style>
+        @import url(https://cdn.jsdelivr.net/gh/tonsky/FiraCode@5.2/distr/fira_code.css);
 
-            * {
-                user-select: none;
-            }
+        * {
+            user-select: none;
+        }
 
-            html, body {
-                overflow: hidden;
-                background-color: #000;
-            }
+        code {
+            font-family: 'Fira Code', monospace;
+        }
 
-            body {
-                margin: 0;
-                position: fixed;
-                width: 100%;
-                height: 100%;
-            }
+        pre {
+            background-color: gray;
+            border-radius: 8px;
+            padding: 8px;
+        }
 
-            canvas {
-                width: 100%;
-                height: 100%;
-            }
+        html,
+        body {
+            overflow: hidden;
+            background-color: #000;
+            font-family: 'Noto Sans KR', sans-serif;
+        }
 
-            
+        body {
+            margin: 0;
+            position: fixed;
+            width: 100%;
+            height: 100%;
+        }
 
+        canvas {
+            width: 100%;
+            height: 100%;
+        }
 
-        </style>
-        <!-- <script>
-            window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
-            ga('create', 'UA-105392568-1', 'auto');
-            ga('send', 'pageview');
-        </script>
-        <script async src="https://www.google-analytics.com/analytics.js"></script> -->
-    </head>
-    <body>
-        <canvas></canvas>
-        <script src="./script.js"></script>
-    </body>
+        /* @media (min-width:320px)  { 
+            display: smartphones, iPhone, portrait 480x320 phones
+        }
+
+        @media (min-width:1025px) { 
+            display: big landscape tablets, laptops, and desktops
+        }
+
+        @media (min-width:1281px) {
+            display: hi-res laptops and desktops
+        } */
+
+        #overlay {
+            opacity: 0.8;
+            position: absolute;
+            top: 0;
+            left: 0;
+            background-color: black;
+            height: 100%;
+            width: 32.360679775%;
+            z-index: 5;
+            color: rgba(255, 255, 255, 1);
+            padding-top: 24px;
+            padding-left: 24px;
+            padding-right: 24px;
+            overflow: scroll;
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        #overflow::-webkit-scrollbar {
+            display: none;
+        }
+
+        a {
+            color: blue;
+        }
+
+    </style>
+</head>
+
+<body>
+    <div id="overlay">
+        <h2 id="webgl1-webgl2-">WebGL1과 WebGL2의 차이</h2>
+        <h3 id="1-getcontext-webgl-webgl2-">1. <code>getContext</code>를 호출할 때 <code>webgl</code> 대신 <code>webgl2</code>
+            사용</h3>
+        <pre><code class="lang-javascript"><span class="hljs-comment">// WebGL1</span>
+<span class="hljs-keyword">var</span> gl = canvas.getContext(<span class="hljs-string">'webgl'</span>);
+
+<span class="hljs-comment">// WebGL2 @ script.js:121</span>
+<span class="hljs-keyword">var</span> gl = canvas.getContext(<span class="hljs-string">'webgl2'</span>);
+</code></pre>
+        <h3 id="2-">2. 부동 소수점 프레임버퍼 추가</h3>
+        <p>WebGL1에선 부동 소수점 텍스처를 지원하는지 확인하기 위해 <code>OES_texture_float</code>를 활성화 한 후 부동 소수점 텍스처를 생성하고 프레임버퍼에 추가해
+            <code>gl.checkFramebufferStatus</code>를 호출해 <code>gl.FRAMEBUFFER_COMPLETE</code>를 반환하는지 확인해야 했어요.
+        </p>
+        <p>WebGL2에서 <code>gl.checkFramebufferStatus</code>로 부터 <code>gl.FRAMEBUFFER_COMPLETE</code>를 반환받기 위해선
+            <code>EXT_color_buffer_float</code>를 허용해주세요.<br><a
+                href="https://www.khronos.org/registry/webgl/specs/latest/2.0/#4.1.5">공식 문서 보러 가기</a>
+        </p>
+        <p><code>HALF_FLOAT</code> 프레임버퍼에도 동일하게 적용해주세요!</p>
+        <pre><code class="lang-javascript"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">getWebGLContext</span><span class="hljs-params">(canvas)</span> </span>{
+
+    ...
+
+    <span class="hljs-comment">// WebGL2</span>
+    <span class="hljs-keyword">if</span> (isWebGL2) {
+        gl.getExtension(<span class="hljs-string">'EXT_color_buffer_float'</span>);
+        supportLinearFiltering = gl.getExtension(<span class="hljs-string">'OES_texture_float_linear'</span>);
+    } 
+
+    <span class="hljs-comment">// WebGL1</span>
+    <span class="hljs-keyword">else</span> {
+        halfFloat = gl.getExtension(<span class="hljs-string">'OES_texture_half_float'</span>);
+        supportLinearFiltering = gl.getExtension(<span class="hljs-string">'OES_texture_half_float_linear'</span>);
+    }
+
+    ...
+
+}
+</code></pre>
+        <h3 id="3-webgl1-webgl2-">3. WebGL1 확장의 WebGL2 표준화</h3>
+        <p>아래 확장들이 표준에 편입됐어요.</p>
+        <ul>
+            <li>Depth Textures (<code>WEBGL_depth_texture</code>)</li>
+            <li>Floating Point Textures (<code>OES_texture_float/OES_texture_float_linear</code>)</li>
+            <li>Half Floating Point Textures (<code>OES_texture_half_float/- OES_texture_half_float_linear</code>)</li>
+            <li>Vertex Array Objects (<code>OES_vertex_array_object</code>)</li>
+            <li>Standard Derivatives (<code>OES_standard_derivatives</code>)</li>
+            <li>Instanced Drawing (<code>ANGLE_instanced_arrays</code>)</li>
+            <li>UNSIGNED_INT indices (<code>OES_element_index_uint</code>)</li>
+            <li>Setting gl_FragDepth (<code>EXT_frag_depth</code>)</li>
+            <li>Blend Equation MIN/MAX (<code>EXT_blend_minmax</code>)</li>
+            <li>Direct texture LOD access (<code>EXT_shader_texture_lod</code>)</li>
+            <li>Multiple Draw Buffers (<code>WEBGL_draw_buffers</code>)</li>
+            <li>Texture access in vertex shaders</li>
+        </ul>
+        <p>자주 사용되던 <code>OES_vertex_array_object</code>를 예시로 확장 없이 사용하는 예시를 들어볼게요.</p>
+        <pre><code class="lang-javascript"><span class="hljs-comment">// WebGL1</span>
+<span class="hljs-keyword">var</span> ext = <span class="hljs-keyword">gl</span>.getExtension(<span class="hljs-string">"OES_vertex_array_object"</span>);
+<span class="hljs-keyword">if</span> (!ext) {
+  <span class="hljs-comment">// tell user they don't have the required extension or work around it</span>
+} <span class="hljs-keyword">else</span> {
+  <span class="hljs-keyword">var</span> someVAO = ext.createVertexArrayOES();
+}
+
+<span class="hljs-comment">// WebGL2</span>
+<span class="hljs-keyword">var</span> someVAO = <span class="hljs-keyword">gl</span>.createVertexArray();
+</code></pre>
+        <h3 id="4-glsl-300-es-">4. <code>GLSL 300 es</code> 사용</h3>
+        <p>사용하는 쉐이더를 GLSL 3.00 ES로 업그레이드 하면 좋다. 그러기 위해선 쉐이더 선언의 첫 줄이 <code>#version 300 es</code>야 해요. 반드시 첫 줄이여야 하기 때문에
+            주석이나 개행이 이루어지면 안돼요.</p>
+        <pre><code class="lang-javascript"><span class="hljs-comment">// BAD                    +---There's a new line here!</span>
+<span class="hljs-comment">// BAD                    V</span>
+var vertexShaderSource = `
+#version <span class="hljs-number">300</span> es
+...
+`;
+
+<span class="hljs-comment">// GOOD</span>
+var vertexShaderSource = `#version <span class="hljs-number">300</span> es
+...
+`;
+</code></pre>
+        <h4 id="4-1-attribute-in-">4-1. <code>attribute</code> 대신 <code>in</code> 사용</h4>
+        <pre><code class="lang-javascript"><span class="hljs-comment">// WebGL1</span>
+<span class="hljs-keyword">attribute</span> <span class="hljs-type">vec4</span> a_position;
+<span class="hljs-keyword">attribute</span> <span class="hljs-type">vec2</span> a_texcoord;
+<span class="hljs-keyword">attribute</span> <span class="hljs-type">vec3</span> a_normal;
+
+<span class="hljs-comment">// WebGL2 </span>
+<span class="hljs-keyword">in</span> <span class="hljs-type">vec4</span> a_position;
+<span class="hljs-keyword">in</span> <span class="hljs-type">vec2</span> a_texcoord;
+<span class="hljs-keyword">in</span> <span class="hljs-type">vec3</span> a_normal;
+</code></pre>
+        <h4 id="4-2-varying-in-out-">4-2. <code>varying</code> 대신 <code>in/out</code> 사용</h4>
+        <pre><code class="lang-javascript"><span class="hljs-comment">// WebGL1</span>
+<span class="hljs-keyword">varying</span> <span class="hljs-type">vec2</span> v_texcoord;
+<span class="hljs-keyword">varying</span> <span class="hljs-type">vec3</span> v_normal;
+
+<span class="hljs-comment">// WebGL2 </span>
+<span class="hljs-comment">// Vertex Shader</span>
+<span class="hljs-keyword">out</span> <span class="hljs-type">vec2</span> v_texcoord;
+<span class="hljs-keyword">out</span> <span class="hljs-type">vec3</span> v_normal;
+
+<span class="hljs-comment">// Framgent Shader</span>
+<span class="hljs-keyword">in</span> <span class="hljs-type">vec2</span> v_texcoord;
+<span class="hljs-keyword">in</span> <span class="hljs-type">vec3</span> v_normal;
+</code></pre>
+        <h4 id="4-3-gl_fragcolor-">4-3. <code>gl_FragColor</code> 대신 원하는 변수명 사용 가능</h4>
+        <pre><code class="lang-javascript"><span class="hljs-comment">// WebGL1</span>
+gl_FragColor = vec4(<span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>);  <span class="hljs-comment">// red</span>
+
+<span class="hljs-comment">// WebGL2</span>
+out vec4 myOutputColor;
+
+void main() {
+   myOutputColor = vec4(<span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>);  <span class="hljs-comment">// red</span>
+}
+</code></pre>
+        <h4 id="4-4-texture2d-texture-">4-4. <code>texture2D</code> 대신 <code>texture</code> 사용</h4>
+        <pre><code class="lang-javascript"><span class="hljs-comment">// WebGL1</span>
+<span class="hljs-type">vec4</span> color1 = <span class="hljs-built_in">texture2D</span>(u_some2DTexture, ...);
+<span class="hljs-type">vec4</span> color2 = <span class="hljs-built_in">textureCube</span>(u_someCubeTexture, ...);
+
+<span class="hljs-comment">// WebGL2</span>
+<span class="hljs-type">vec4</span> color1 = <span class="hljs-built_in">texture</span>(u_some2DTexture, ...);
+<span class="hljs-type">vec4</span> color2 = <span class="hljs-built_in">texture</span>(u_someCubeTexture, ...);
+</code></pre>
+        <p>더 자세한 내용이 궁금하다면?<br><a href="https://khronos.org/registry/webgl/specs/latest/2.0/#4.3">공식 문서 보러 가기</a></p>
+        <h3 id="5-non-power-of-two-">5. Non-Power-of-Two 텍스처의 사용 허용</h3>
+        <p>WebGL 1.0 API와 다르게, WebGL 2.0에서는 non-power-of-two 텍스처를 사용할 수 있어요. 다양한 mipmapping 기능과 wrapping mode를 사용할 수
+            있어요.<br><a href="https://www.khronos.org/registry/webgl/specs/latest/2.0/#4.1.3">공식 문서 보러 가기</a></p>
+        <h3 id="6-">6. 새로 추가된 텍스처 포맷</h3>
+        <details>
+            <summary>무려 52가지나! 궁금하면 클릭해서 열어보기</summary>
+            <ul>
+                <li><code>RGBA32I</code></li>
+                <li><code>RGBA32UI</code></li>
+                <li><code>RGBA16I</code></li>
+                <li><code>RGBA16UI</code></li>
+                <li><code>RGBA8</code></li>
+                <li><code>RGBA8I</code></li>
+                <li><code>RGBA8UI</code></li>
+                <li><code>SRGB8_ALPHA8</code></li>
+                <li><code>RGB10_A2</code></li>
+                <li><code>RGB10_A2UI</code></li>
+                <li><code>RGBA4</code></li>
+                <li><code>RGB5_A1</code></li>
+                <li><code>RGB8</code></li>
+                <li><code>RGB565</code></li>
+                <li><code>RG32I</code></li>
+                <li><code>RG32UI</code></li>
+                <li><code>RG16I</code></li>
+                <li><code>RG16UI</code></li>
+                <li><code>RG8</code></li>
+                <li><code>RG8I</code></li>
+                <li><code>RG8UI</code></li>
+                <li><code>R32I</code></li>
+                <li><code>R32UI</code></li>
+                <li><code>R16I</code></li>
+                <li><code>R16UI</code></li>
+                <li><code>R8</code></li>
+                <li><code>R8I</code></li>
+                <li><code>R8UI</code></li>
+                <li><code>RGBA32F</code></li>
+                <li><code>RGBA16F</code></li>
+                <li><code>RGBA8_SNORM</code></li>
+                <li><code>RGB32F</code></li>
+                <li><code>RGB32I</code></li>
+                <li><code>RGB32UI</code></li>
+                <li><code>RGB16F</code></li>
+                <li><code>RGB16I</code></li>
+                <li><code>RGB16UI</code></li>
+                <li><code>RGB8_SNORM</code></li>
+                <li><code>RGB8I</code></li>
+                <li><code>RGB8UI</code></li>
+                <li><code>SRGB8</code></li>
+                <li><code>R11F_G11F_B10F</code></li>
+                <li><code>RGB9_E5</code></li>
+                <li><code>RG32F</code></li>
+                <li><code>RG16F</code></li>
+                <li><code>RG8_SNORM</code></li>
+                <li><code>R32F</code></li>
+                <li><code>R16F</code></li>
+                <li><code>R8_SNORM</code></li>
+                <li><code>DEPTH_COMPONENT32F</code></li>
+                <li><code>DEPTH_COMPONENT24</code></li>
+                <li><code>DEPTH_COMPONENT16</code></li>
+        </ul>
+        </details>
+        <br>
+    </div>
+    <canvas></canvas>
+    <script src="./script.js"></script>
+</body>
+
 </html>
