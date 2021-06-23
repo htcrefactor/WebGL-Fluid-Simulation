@@ -33,6 +33,60 @@
 
 ## What The Tutorial Covers
 - WebGL1과 WebGL2의 차이
+- WebGL1에서 WebGL2로 코드를 올리는 방법
+
+## WebGL1 vs WebGL2
+
+
+## Moving from WebGL1 to WebGL2
+1. `getContext`를 호출할 때 `webgl` 대신 `webgl2`를 사용한다.
+`var gl = someCanvas.getContext("webgl2");`
+
+2. WebGL1의 많은 확장들이 WebGL2 표준에 포함되어 확장을 덜 사용해도 된다.
+WebGL1:
+```javascript
+var ext = gl.getExtension("OES_vertex_array_object");
+if (!ext) {
+  // tell user they don't have the required extension or work around it
+} else {
+  var someVAO = ext.createVertexArrayOES();
+}
+```
+WebGL2:
+`var someVAO = gl.createVertexArray();`
+
+3. `GLSL 300 es` 사용하기
+사용하는 쉐이더를 GLSL 3.00 ES로 업그레이드 하면 좋다. 그러기 위해선 쉐이더 선언의 첫 줄이 `#version 300 es`면 된다. 반드시 첫 줄이여야 하기 때문에 주석이나 개행이 이루어지면 안된다.
+안 좋은 예:
+```javascript
+// BAD!!!!                +---There's a new line here!
+// BAD!!!!                V
+var vertexShaderSource = `
+#version 300 es
+..
+`;
+```
+
+좋은 예: 
+```javascript
+var vertexShaderSource = `#version 300 es
+...
+`;
+```
+    1. `attribute`을 `in`으로 바꾸기
+    2. `varying`을 `in/out`으로 바꾸기
+    3. `gl_FragColor` 대신 원하는 변수 사용 가능
+    4. `texture2D`을 `texture`로 바꾸기
+    ```javascript
+    // WebGL1
+    vec4 color1 = texture2D(u_some2DTexture, ...);
+    vec4 color2 = textureCube(u_someCubeTexture, ...);
+
+    // WebGL2
+    vec4 color1 = texture(u_some2DTexture, ...);
+    vec4 color2 = texture(u_someCubeTexture, ...);
+    ```
+    
 
 ## License
 MIT License
