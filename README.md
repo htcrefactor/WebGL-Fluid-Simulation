@@ -2,7 +2,7 @@
 
 <div align="center">
     <img src="./assets/screenshot.jpg"></img>
-    <h4 align="center">WebGL2 Fluid Simulation Tutorial</h4>
+    <h4 align="center">Hello WebGL 2.0 : Using WebGL 2.0 to Implement Fluid Simulation</h4>
     <p align="center">
         <img src="http://img.shields.io/badge/-WebGL2-990000?style=flat&logo=WebGL&link=https://github.com/htcrefactor/WebGL-Fluid-Simulation"/>
         <img src="http://img.shields.io/badge/-HTML-E34F26?style=flat&logo=HTML5&link=https://github.com/htcrefactor/WebGL-Fluid-Simulation"/>
@@ -32,14 +32,11 @@
 - WebGL 2.0을 지원하는 환경 ([여기서 확인하기](http://get.webgl.org/))
 
 ## What The Tutorial Covers
-- [WebGL1과 WebGL2의 차이](##WebGL1과-WebGL2의-차이)
-- [WebGL1에서 WebGL2 코드로 변경하는 방법](https://github.com/htcrefactor/WebGL-Fluid-Simulation/tree/master#webgl1%EC%97%90%EC%84%9C-webgl2-%EC%BD%94%EB%93%9C%EB%A1%9C-%EB%B3%80%EA%B2%BD%ED%95%98%EB%8A%94-%EB%B0%A9%EB%B2%95)
-- Fluid Simulation에서 사용된 WebGL 2.0 코드 (각 예제 코드에 포함)
+- WebGL1과 WebGL2의 차이
+- Fluid Simulation에서 사용된 WebGL 2.0 코드 (예제 코드에 포함)
+- Khronos Group의 WebGL 2.0 Specification에 대한 추적
 
 ## WebGL1과 WebGL2의 차이
-
-
-## WebGL1에서 WebGL2 코드로 변경하는 방법
 ### `getContext`를 호출할 때 `webgl` 대신 `webgl2` 사용
 ```javascript
 // WebGL1
@@ -61,10 +58,14 @@ function getWebGLContext(canvas) {
     
     ...
 
+    // WebGL2
     if (isWebGL2) {
         gl.getExtension('EXT_color_buffer_float');
         supportLinearFiltering = gl.getExtension('OES_texture_float_linear');
-    } else {
+    } 
+    
+    // WebGL1
+    else {
         halfFloat = gl.getExtension('OES_texture_half_float');
         supportLinearFiltering = gl.getExtension('OES_texture_half_float_linear');
     }
@@ -173,6 +174,12 @@ vec4 color1 = texture(u_some2DTexture, ...);
 vec4 color2 = texture(u_someCubeTexture, ...);
 ```
 
+더 자세한 내용이 궁금하다면? [공식 문서 보러 가기](https://khronos.org/registry/webgl/specs/latest/2.0/#4.3)
+### Non-Power-of-Two 텍스처의 사용 허용
+WebGL 1.0 API와 다르게, WebGL 2.0에서는 non power of 2 텍스처를 사용할 수 있어요. 다양한 mipmapping 기능과 wrapping mode를 사용할 수 있어요. [공식 문서 보러 가기](https://www.khronos.org/registry/webgl/specs/latest/2.0/#4.1.3)
+
+
+
 ## License
 ### MIT License
 - Linking: Permissive
@@ -189,6 +196,7 @@ vec4 color2 = texture(u_someCubeTexture, ...);
 - https://webgl2fundamentals.org/webgl/lessons/webgl1-to-webgl2.html
 - https://www.khronos.org/assets/uploads/developers/library/2017-webgl-webinar/Khronos-Webinar-WebGL-20-is-here_What-you-need-to-know_Apr17.pdf
 - https://developer.mozilla.org/en-US/docs/Web/API/WebGL_API/Using_Extensions
+- https://www.khronos.org/registry/webgl/specs/latest/2.0/
 
 ### Open Source Licensing
 - https://en.wikipedia.org/wiki/Comparison_of_free_and_open-source_software_licences
