@@ -1,7 +1,7 @@
 # WebGL Fluid Simulation Tutorial
 
 <div align="center">
-    <img src="./screenshot.jpg"></img>
+    <img src="./assets/screenshot.jpg"></img>
     <h4 align="center">WebGL2 Fluid Simulation Tutorial</h4>
     <p align="center">
         <img src="http://img.shields.io/badge/-WebGL2-990000?style=flat&logo=WebGL&link=https://github.com/htcrefactor/WebGL-Fluid-Simulation"/>
